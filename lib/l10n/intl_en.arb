@@ -1,0 +1,9 @@
+{
+    "@@locale": "en",
+
+    "home": "Home",
+    "num_index": "num is {index}",
+    "word": "{name} is a {sex}",
+    "man": "man",
+    "woman": "woman"
+}

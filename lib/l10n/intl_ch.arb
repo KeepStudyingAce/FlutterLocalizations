@@ -1,0 +1,9 @@
+{
+    "@@locale": "ch",
+
+    "home": "首页",
+    "num_index": "数字是{index}",
+    "word": "{name} 是一个 {sex}",
+    "man": "男人",
+    "woman": "女人"
+}
