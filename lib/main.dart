@@ -1,3 +1,4 @@
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:FlutterLocalizations/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -10,7 +11,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      localizationsDelegates: [S.delegate],
+      localizationsDelegates: [
+        S.delegate,
+
+        /// 下面两个不配置，iOS端会报错
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       supportedLocales: S.delegate.supportedLocales,
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -18,6 +25,20 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'Flutter 国际化 intl_utils'),
+      localeResolutionCallback:
+          (Locale _locale, Iterable<Locale> supportedLocales) {
+        print(_locale.languageCode + "===" + _locale.countryCode);
+        print(supportedLocales);
+        Locale locale;
+        if (S.delegate.isSupported(_locale)) {
+          locale = _locale;
+          print("1111111");
+        } else {
+          print("22222");
+          locale = Locale("zh", 'CH');
+        }
+        return locale;
+      },
     );
   }
 }
@@ -36,8 +57,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     /// 语言的切换
-    if (Intl.getCurrentLocale() == "en") {
-      S.load(Locale("ch"));
+    print("当前语言环境：" + Intl.getCurrentLocale());
+    if (Intl.getCurrentLocale().contains("en")) {
+      // 目前不区分各种英文
+      S.load(Locale("zh"));
     } else {
       S.load(Locale("en"));
     }
